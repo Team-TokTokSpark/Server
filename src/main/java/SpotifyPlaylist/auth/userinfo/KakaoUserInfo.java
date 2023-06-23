@@ -1,0 +1,46 @@
+package SpotifyPlaylist.auth.userinfo;
+
+import java.util.Map;
+
+public class KakaoUserInfo implements OAuth2UserInfo {
+
+//    private Map<String, Object> attributes;
+//    private Map<String, Object> attributesAccount;
+//    private Map<String, Object> attributesProfile;
+
+    private String id;
+    private Map<String, Object> kakaoAccount;
+
+    public KakaoUserInfo(Map<String, Object> attributes, String id) {
+        this.kakaoAccount = attributes;
+        this.id = id;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return kakaoAccount;
+    }
+
+    @Override
+    public String getProviderId() {
+//        return attributes.get("id").toString();
+        return id;
+    }
+
+    @Override
+    public String getProvider() {
+        return "kakao";
+    }
+
+    @Override
+    public String getEmail() {
+//        return attributesAccount.get("email").toString();
+        return String.valueOf(kakaoAccount.get("email"));
+    }
+
+    @Override
+    public String getName() {
+//        return attributesProfile.get("nickname").toString();
+        return null;
+    }
+}

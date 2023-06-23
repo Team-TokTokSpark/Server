@@ -41,7 +41,7 @@ public class SpotifyAuthController {
     private final Random random = new Random();
     private final String stateKey = "spotify_auth_state";
 
-    @GetMapping("/login")
+    @GetMapping("/spotify-login")
     public RedirectView login(HttpServletRequest request, HttpServletResponse response) {
         String state = generateRandomString(16);
         response.addCookie(new Cookie(stateKey, state));

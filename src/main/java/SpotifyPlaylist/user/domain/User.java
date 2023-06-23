@@ -1,33 +1,42 @@
 package SpotifyPlaylist.user.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Entity
+@Entity @Data
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "user_id")
+    private Long id;
 
-    private String kakaoId;
-
-    private String oneLineIntroduction;
-
-    private String refreshToken;
-
+    private String username;
+    private String password;
     private String email;
 
-    private String nickname;
+    @Enumerated(EnumType.STRING)
+    private Role role; //ADMIN, MANAGER, USER
+    //private String role;
 
-    private String profileImage;
+    private String provider; //어떤 OAuth인지(google, naver 등)
+    private String provideId; // 해당 OAuth 의 key(id)
 
-    private String spotifyId;
+    private LocalDateTime createDate;
 
+    @Builder
+    public User(String username, String password, String email, Role role, String provider, String provideId, LocalDateTime createDate) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.provideId = provideId;
+        this.createDate = createDate;
+    }
 }

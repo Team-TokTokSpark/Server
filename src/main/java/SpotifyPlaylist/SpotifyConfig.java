@@ -10,6 +10,7 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
+
 public class SpotifyConfig {
     private static final String CLIENT_ID = "f44ba55629874250bddde56310980a50";
     private static final String CLIENT_SECRET = "c7446a870f4b4e399078cc75eb30b5fd";
@@ -26,4 +27,5 @@ public class SpotifyConfig {
             return "error";
         }
     }
+
 }
