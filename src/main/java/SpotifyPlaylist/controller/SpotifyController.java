@@ -1,7 +1,7 @@
-package SpotifyPlaylist.Controller;
+package SpotifyPlaylist.controller;
 
-import SpotifyPlaylist.DTO.SearchResponseDto;
-import SpotifyPlaylist.Service.SpotifyService;
+import SpotifyPlaylist.dto.SearchResponseDto;
+import SpotifyPlaylist.service.SpotifyService;
 import SpotifyPlaylist.SpotifyConfig;
 import java.io.IOException;
 import java.text.ParseException;

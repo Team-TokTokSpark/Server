@@ -23,6 +23,14 @@
 #                BasicBinder: TRACE
 
 spring:
+  profiles:
+    group:
+      "local" : " jwt, oauth"
+    active : local
+
+---
+
+spring:
   datasource:
     url: jdbc:mysql://localhost:3306/toktok?serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,7 +45,11 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+
+  config:
+    activate:
+      on-profile: "local"
 
 spotify:
   registration:

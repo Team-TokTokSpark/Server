@@ -1,4 +1,4 @@
-package SpotifyPlaylist.DTO;
+package SpotifyPlaylist.dto;
 
 import lombok.Builder;
 import lombok.Getter;

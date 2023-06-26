@@ -16,7 +16,7 @@ public class PlaylistSong {
     private Long playlistSongId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="playlist_id")
+    @JoinColumn(name="playlist_id")
     private Playlist playlist;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,8 @@ public class PlaylistSong {
 
     private String albumImageUrl;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "playlistSong")
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "playlistSong")
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sticker_id")
     private Sticker sticker; // 스티커 이미지
 

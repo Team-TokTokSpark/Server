@@ -1,7 +1,7 @@
-package SpotifyPlaylist.Service;
+package SpotifyPlaylist.service;
 
-import SpotifyPlaylist.DTO.DtoMapper;
-import SpotifyPlaylist.DTO.SearchResponseDto;
+import SpotifyPlaylist.dto.DtoMapper;
+import SpotifyPlaylist.dto.SearchResponseDto;
 import SpotifyPlaylist.SpotifyConfig;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,7 +89,6 @@ public class SpotifyService {
         }
         return searchResponseDtoList;
     }
-
 
 
 }

@@ -16,8 +16,9 @@ public class Sticker {
 
     private String imgUrl; // 스티커 이미지 url
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playlist_song_id")
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "playlist_song_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "sticker")
     private PlaylistSong playlistSong;
 
 }
