@@ -172,5 +172,22 @@ public class UserService {
         }
     }
 
+    public List<UserDto> getUserByNickname(String nickname) {
+        Optional<User> users = userRepository.findByNicknameContaining(nickname);
+        if (nickname.isEmpty()) {
+            throw new IllegalArgumentException("keyword not found: " + nickname);}
+        return users.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private UserDto convertToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getUserId());
+        userDto.setNickname(user.getNickname());
+        userDto.setIntroduce(user.getOneLineIntroduction());
+        return userDto;
+    }
+
 
 }
