@@ -281,4 +281,84 @@ public class PlaylistService {
         playlistRepository.save(playlist);
     }
 
+    @Transactional //기록 게시물 생성
+    public void createRecord(Long userId, CreateRecordRequestDto createRecordRequestDto) { // 페이지(플레이리스트) 생성
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+
+        Playlist playlist = new Playlist();
+        playlist.setUser(user.get());
+        playlist.setPlaylistName(createRecordRequestDto.getPlaylistName());
+        playlist.setBackgroundIdx(createRecordRequestDto.getBackgroundIdx());
+        playlist.setType(createRecordRequestDto.getType());
+        playlist.setImageIdx(createRecordRequestDto.getImageIdx());
+        playlist.setContent(createRecordRequestDto.getContent()); //추가로 생긴 부분
+
+        playlistRepository.save(playlist);
+    }
+
+    @Transactional //기록 게시물 수정
+    public void updateRecord(Long userId, Long playlistId, UpdateRecordRequestDto updateRecordRequestDto) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new IllegalArgumentException("Record not found with id: " + playlistId));
+
+        // Update record properties
+        playlist.setPlaylistName(updateRecordRequestDto.getPlaylistName());
+        playlist.setBackgroundIdx((long) updateRecordRequestDto.getBackgroundIdx());
+        playlist.setContent(updateRecordRequestDto.getContent()); //추가로 생긴 부분
+
+        playlistRepository.save(playlist);
+    }
+
+    public RecordDto getRecordWithSongsAndStickers(Long playlistId) { // 게시물 곡 조회
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new IllegalArgumentException("Record not found with id: " + playlistId));
+        List<PlaylistSong> playlistSongs = playlistSongRepository.findByPlaylist(playlist);
+
+        RecordDto recordDto = new RecordDto();
+        recordDto.setUserId(playlist.getUser().getUserId());
+        recordDto.setNickname(playlist.getUser().getNickname());
+        recordDto.setPlaylistId(playlist.getPlaylistId());
+        recordDto.setPlaylistName(playlist.getPlaylistName());
+        recordDto.setBackgroundIdx(playlist.getBackgroundIdx());
+        recordDto.setContent(playlist.getContent()); //추가로 생긴 부분
+
+        List<PlaylistSongDto> playlistSongDtos = playlistSongs.stream().map(playlistSong -> {
+            PlaylistSongDto playlistSongDto = new PlaylistSongDto();
+            playlistSongDto.setPlaylistSongId(playlistSong.getPlaylistSongId());
+            playlistSongDto.setTitle(playlistSong.getTitle());
+            playlistSongDto.setArtist(playlistSong.getArtist());
+            playlistSongDto.setAlbumImageUrl(playlistSong.getAlbumImageUrl());
+
+            StickerDto stickerDto = new StickerDto();
+            Optional<Sticker> optionalSticker = stickerRepository.findByPlaylistSong(playlistSong);
+            if (optionalSticker.isPresent()) {
+                Sticker sticker = optionalSticker.get();
+                stickerDto.setStickerId(sticker.getStickerId());
+                stickerDto.setImgIdx(sticker.getImgIdx());
+                stickerDto.setMessage(sticker.getMessage());
+            } else {
+                // Sticker가 없는 경우 빈 StickerDto를 사용
+                stickerDto.setStickerId(null);
+                stickerDto.setImgIdx(null);
+                stickerDto.setMessage(null);
+            }
+
+            playlistSongDto.setStickers(Collections.singletonList(stickerDto));
+            return playlistSongDto;
+        }).collect(Collectors.toList());
+
+
+        recordDto.setPlaylistSongs(playlistSongDtos);
+        return recordDto;
+    }
+
+
+
+
+
+
+
 }
