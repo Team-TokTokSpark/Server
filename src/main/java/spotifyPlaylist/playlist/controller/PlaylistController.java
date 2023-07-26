@@ -106,6 +106,11 @@ public class PlaylistController {
         playlistService.updateRecord(userId, playlistId, updateRecordRequestDto);
         return ResponseEntity.ok("게시물이 정상적으로 업데이트되었습니다.");
     }
+    @GetMapping("/record/{playlistId}/stickers") //기록 게시물 곡 조회
+    public ResponseEntity<List<PlaylistSongWithStickerDto>> getPlaylistSongsWithStickers(@PathVariable Long playlistId) {
+        List<PlaylistSongWithStickerDto> playlistSongsWithStickers = playlistService.getPlaylistSongsWithStickers(playlistId);
+        return ResponseEntity.ok(playlistSongsWithStickers);
+    }
 
 
 

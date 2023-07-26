@@ -366,10 +366,36 @@ public class PlaylistService {
         return recordDto;
     }
 
+    public List<PlaylistSongWithStickerDto> getPlaylistSongsWithStickers(Long playlistId) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new IllegalArgumentException("Record not found with id: " + playlistId));
 
+        List<PlaylistSong> playlistSongs = playlistSongRepository.findByPlaylist(playlist);
 
+        List<PlaylistSongWithStickerDto> playlistSongsWithStickers = new ArrayList<>();
+        for (PlaylistSong playlistSong : playlistSongs) {
+            PlaylistSongWithStickerDto playlistSongWithSticker = new PlaylistSongWithStickerDto();
+            playlistSongWithSticker.setPlaylistSongId(playlistSong.getPlaylistSongId());
+            playlistSongWithSticker.setTitle(playlistSong.getTitle());
+            playlistSongWithSticker.setArtist(playlistSong.getArtist());
+            playlistSongWithSticker.setAlbumImageUrl(playlistSong.getAlbumImageUrl());
 
+            Optional<Sticker> optionalSticker = stickerRepository.findByPlaylistSong(playlistSong);
+            if (optionalSticker.isPresent()) {
+                Sticker sticker = optionalSticker.get();
+                StickerDto stickerDto = new StickerDto();
+                stickerDto.setStickerId(sticker.getStickerId());
+                stickerDto.setImgIdx(sticker.getImgIdx());
+                stickerDto.setMessage(sticker.getMessage());
+                playlistSongWithSticker.setSticker(stickerDto);
+            } else {
+                // Sticker가 없는 경우 빈 객체 설정
+                playlistSongWithSticker.setSticker(new StickerDto());
+            }
 
+            playlistSongsWithStickers.add(playlistSongWithSticker);
+        }
 
-
+        return playlistSongsWithStickers;
+    }
 }
