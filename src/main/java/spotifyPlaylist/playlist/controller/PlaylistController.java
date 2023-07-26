@@ -83,9 +83,14 @@ public class PlaylistController {
         playlistService.updatePlaylist(userId, playlistId, updatePlaylistRequestDto);
         return ResponseEntity.ok("플레이리스트가 정상적으로 업데이트되었습니다.");
     }
-    @PostMapping("/page/{userId}") // 페이지(플레이리스트) 추가
+    @PostMapping("/record/{userId}") // 기록게시물 생성
     public void createRecord(@PathVariable Long userId, @RequestBody CreateRecordRequestDto createRecordRequestDto) {
         playlistService.createRecord(userId, createRecordRequestDto);
+    }
+
+    @PatchMapping("/record/{playlistId}/content") //기록게시물 내용 추가
+    public void updatePlaylistContent(@PathVariable Long playlistId, @RequestBody UpdatePlaylistContentRequestDto updatePlaylistContentRequestDto) {
+        playlistService.updatePlaylistContent(playlistId, updatePlaylistContentRequestDto);
     }
 
     @GetMapping("/record/{playlistId}") // 기록게시물 조회

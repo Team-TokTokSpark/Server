@@ -299,6 +299,17 @@ public class PlaylistService {
         playlistRepository.save(playlist);
     }
 
+    @Transactional //기록 게시물 내용 추가
+    public void updatePlaylistContent(Long playlistId, UpdatePlaylistContentRequestDto updatePlaylistContentRequestDto) {
+        Optional<Playlist> playlist = playlistRepository.findById(playlistId);
+        if (!playlist.isPresent()) {
+            throw new IllegalArgumentException("Playlist not found with id: " + playlistId);
+        }
+
+        playlist.get().setContent(updatePlaylistContentRequestDto.getContent());
+        playlistRepository.save(playlist.get());
+    }
+
     @Transactional //기록 게시물 수정
     public void updateRecord(Long userId, Long playlistId, UpdateRecordRequestDto updateRecordRequestDto) {
         Playlist playlist = playlistRepository.findById(playlistId)
