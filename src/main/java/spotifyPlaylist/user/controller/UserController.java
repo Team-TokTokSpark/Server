@@ -63,4 +63,9 @@ public class UserController {
         return userService.getUserInfo(email);
     }
 
+    @GetMapping("/nickname/{nickname}")
+    public List<UserDto> getUserByNickname(@PathVariable String nickname) {
+        return userService.getUserByNickname(nickname);
+    }
+
 }

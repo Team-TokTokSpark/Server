@@ -34,4 +34,6 @@ public class Playlist {
 
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserPlaylist> userPlaylists = new ArrayList<>();
+
+    private String content;
 }

@@ -6,7 +6,6 @@ import spotifyPlaylist.playlist.domain.Playlist;
 import spotifyPlaylist.playlist.dto.*;
 import spotifyPlaylist.playlist.service.PlaylistService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -90,5 +89,32 @@ public class PlaylistController {
         playlistService.updatePlaylist(userId, playlistId, updatePlaylistRequestDto);
         return ResponseEntity.ok("플레이리스트가 정상적으로 업데이트되었습니다.");
     }
+    @PostMapping("/record/{userId}") // 기록게시물 생성
+    public void createRecord(@PathVariable Long userId, @RequestBody CreateRecordRequestDto createRecordRequestDto) {
+        playlistService.createRecord(userId, createRecordRequestDto);
+    }
+
+    @PatchMapping("/record/{playlistId}/content") //기록게시물 내용 추가
+    public void updatePlaylistContent(@PathVariable Long playlistId, @RequestBody UpdatePlaylistContentRequestDto updatePlaylistContentRequestDto) {
+        playlistService.updatePlaylistContent(playlistId, updatePlaylistContentRequestDto);
+    }
+
+    @GetMapping("/record/{playlistId}") // 기록게시물 조회
+    public PlaylistDto getRecordWithSongsAndStickers(@PathVariable Long playlistId) {
+        return playlistService.getPlaylistWithSongsAndStickers(playlistId);
+    }
+
+    @PutMapping("/record/{userId}/{playlistId}") //기록 게시물 수정
+    public ResponseEntity<String> updateRecord(
+            @PathVariable Long userId,
+            @PathVariable Long playlistId,
+            @RequestBody UpdateRecordRequestDto updateRecordRequestDto) {
+        playlistService.updateRecord(userId, playlistId, updateRecordRequestDto);
+        return ResponseEntity.ok("게시물이 정상적으로 업데이트되었습니다.");
+    }
+
+
+
+
 
 }
