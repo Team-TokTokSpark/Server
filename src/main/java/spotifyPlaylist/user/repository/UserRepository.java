@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import spotifyPlaylist.user.domain.SocialType;
 import spotifyPlaylist.user.domain.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -22,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     Optional<User> findBySocialTypeAndSocialId(SocialType socialType, String socialId);
 
-    Optional<User> findByNicknameContaining(String keyword);
+    List<User> findByNicknameContainingIgnoreCase(String keyword);
 }

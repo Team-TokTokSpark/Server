@@ -17,6 +17,7 @@ import spotifyPlaylist.user.repository.UserPlaylistRepository;
 import spotifyPlaylist.user.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -173,9 +174,10 @@ public class UserService {
     }
 
     public List<UserDto> getUserByNickname(String nickname) {
-        Optional<User> users = userRepository.findByNicknameContaining(nickname);
         if (nickname.isEmpty()) {
-            throw new IllegalArgumentException("keyword not found: " + nickname);}
+            return Collections.emptyList();
+    }
+        List<User> users = userRepository.findByNicknameContainingIgnoreCase(nickname);
         return users.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
